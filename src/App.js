@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Homepage from "./Pages/Homepage";
+import ProductPage from "./Pages/ProductPage";
+import { ContextProvider } from "./context/Context";
+import NotFound from "./Pages/NotFound";
+import Favorites from "./Pages/Favorites";
+import "./App.css";
+import ErrorBoundary from "./Pages/Error";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Welcome to my cocktail app!</h1>
+      <ErrorBoundary>
+        <ContextProvider>
+          <Router>
+            <Switch>
+              <Route path="/" component={Homepage} exact />
+              <Route path="/cocktails/:name" component={ProductPage} />
+              <Route
+                path="/favorites"
+                component={Favorites}
+                // render={() => <Homepage test="test" />}
+              />
+              <Route component={NotFound} />
+            </Switch>
+          </Router>
+        </ContextProvider>
+      </ErrorBoundary>
     </div>
   );
 }
